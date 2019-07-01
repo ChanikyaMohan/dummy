@@ -1,0 +1,245 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0059)http://synapsys.memberonefcu.com/SynapsysDesktop/Login.aspx -->
+<HTML><HEAD><META content="IE=8.0000" http-equiv="X-UA-Compatible">
+<TITLE>Synapsys - Sign-On</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=utf-8"><LINK 
+href="Images/Synapsys.ico" rel="shortcut icon" type=image/x-icon><LINK 
+href="Synapsys%20-%20Sign-On_files/Styles.css" rel=stylesheet type=text/css>
+<SCRIPT src="Synapsys%20-%20Sign-On_files/jquery-1.6.min.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT src="Synapsys%20-%20Sign-On_files/AjaxFunctions.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT type=text/javascript>
+
+        function jSetUpperCase(CoreUserID) {
+            CoreUserID.value = CoreUserID.value.toUpperCase();
+        }
+
+        function userIDPermissions() {
+            if (document.getElementById("txtSignon").value != "") {
+                document.getElementById("txtPassword").focus();
+
+                checkVisibilityPermissions();
+            }
+        }
+
+        function companyPermissions() {
+            checkVisibilityPermissions();
+        }
+
+        function checkVisibilityPermissions() {
+            var company = document.getElementById("cboCompany").options[document.getElementById("cboCompany").selectedIndex]
+            var bank = company.value.split('~/~')[0];
+            var user = document.getElementById("txtSignon").value;
+            var parameters = '"Officer":"' + user + '", "Bank":"' + bank + '"'
+
+            var returnVal = CallServerSideFunctionSync("Login.aspx", "LoginPermissions", parameters, "False");
+            var enableAutoLogin = returnVal.split('~/~')[0];
+            var enableCoreLogin = returnVal.split('~/~')[1];
+            var coreOfficer = returnVal.split('~/~')[2];
+
+            if (enableAutoLogin != null) {
+                if (enableAutoLogin.toUpperCase() == "TRUE") {
+                    tdRememberMe.style.display = "inline";
+                    trNetwork.style.display = "inline";
+                } else {
+                    tdRememberMe.style.display = "none";
+                    trNetwork.style.display = "none";
+                }
+            }
+
+            if (enableCoreLogin != null) {
+                if (enableCoreLogin.toUpperCase() == "TRUE") {
+                    trCoreSignOn.style.display = "inline";
+                    document.getElementById("txtCoreID").value = coreOfficer;
+                } else {
+                    trCoreSignOn.style.display = "none";
+                    document.getElementById("txtCoreID").value = ""
+                }
+            }
+        }
+
+        function jCheckForNewDomainUser() {
+            var domainInfo = "";
+            var company = document.getElementById("cboCompany").options[document.getElementById("cboCompany").selectedIndex];
+            var bank = company.value.split('~/~')[0];
+            var user = document.getElementById("txtSignon").value;
+            var parameters = '"Officer":"' + user + '", "Bank":"' + bank + '"'
+            document.getElementById("txthUpdateDomainInfo").value = "false";
+
+            //Checks to see if the Current User Identity = the Officer.DomainUser.  If not ask the user if they would like to update it.
+            domainMessage = CallServerSideFunctionSync("Login.aspx", "GetOfficerDomainUser", parameters, "False");
+
+            if (domainMessage != '') {
+                if (confirm(domainMessage)) {
+                    document.getElementById("txthUpdateDomainInfo").value = 'true';
+                }
+            }
+        }
+
+        function findCoreOfficer() {
+            var user = '"Officer":"' + document.getElementById("txtSignon").value + '"'
+            var coreOfficer = CallServerSideFunctionSync("Login.aspx", "GetCoreOfficer", parameters, "False");
+
+            if (coreOfficer.Length() != 0) document.getElementById("txtiSeriesUserid").value
+        }
+
+
+        //Submit form if the Enter key is pressed while the Select menu has focus.
+        function checkEnter() {
+            if (event.keyCode == 13) {
+                document.getElementById("cmdSignOn").click();
+                return false;
+            } else {
+                return true;
+            }
+        }
+    </SCRIPT>
+
+<STYLE type=text/css>.WelcomeBar {
+	HEIGHT: 15px; PADDING-BOTTOM: 1px; TEXT-ALIGN: center; PADDING-TOP: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px
+}
+</STYLE>
+
+<META name=GENERATOR content="MSHTML 11.00.10570.1001"></HEAD>
+<BODY>
+<FORM name=Form1 id=Form1 action=./Login.aspx method=post autocomplete="off">
+<DIV><INPUT name=__EVENTTARGET id=__EVENTTARGET type=hidden> <INPUT 
+name=__EVENTARGUMENT id=__EVENTARGUMENT type=hidden> <INPUT name=__VIEWSTATE 
+id=__VIEWSTATE type=hidden 
+value=/wEPDwUKMTk1NDI2MjU5OQ8WAh4PX19BbnRpWHNyZlRva2VuBSBkNmU1MDRmZTM3ZjU0YTdlYjIxODZjOTI2NmM2OGQwYhYCAgEPZBYEAgUPDxYCHgRUZXh0BR1BdHRhY2hlZCB0byBNT1NRTC5UcmFuc2NlbmREQmRkAgkPZBYMAgEPFgIeBXN0eWxlBQ1kaXNwbGF5Om5vbmU7FgICAQ9kFgICAQ8PFgIfAQUQTUVNQkVST05FXHZyaWxleWRkAgMPD2QWAh4Gb25ibHVyBRR1c2VySURQZXJtaXNzaW9ucygpO2QCBw9kFgICAQ9kFgICAQ8PZBYCHwMFE2pTZXRVcHBlckNhc2UodGhpcylkAgkPEA9kFgIeCG9uY2hhbmdlBRVjb21wYW55UGVybWlzc2lvbnMoKTsQFQEmODI4MyAtIE1lbWJlciBPbmUgRmVkZXJhbCBDcmVkaXQgVW5pb24VARQ4Mjgzfi9+RmFsc2V+L35GYWxzZRQrAwFnZGQCDQ8WAh8CBQ1kaXNwbGF5Om5vbmU7ZAIRDw9kFgIeB29uQ2xpY2sFGWpDaGVja0Zvck5ld0RvbWFpblVzZXIoKTtkGAEFHl9fQ29udHJvbHNSZXF1aXJlUG9zdEJhY2tLZXlfXxYCBQ5jaGtDaGdQYXNzd29yZAUKUmVtZW1iZXJNZXxy7fVPOsjv1iwfyafjqG37z1/f5AHKSmmTRrMucJXv> 
+</DIV>
+<SCRIPT type=text/javascript>
+//<![CDATA[
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</SCRIPT>
+
+<SCRIPT src="Synapsys%20-%20Sign-On_files/WebResource.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT src="Synapsys%20-%20Sign-On_files/ScriptResource.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT src="Synapsys%20-%20Sign-On_files/ScriptResource(1).js" 
+type=text/javascript></SCRIPT>
+
+<DIV><INPUT name=__VIEWSTATEGENERATOR id=__VIEWSTATEGENERATOR type=hidden 
+value=C15F03E7> <INPUT name=__EVENTVALIDATION id=__EVENTVALIDATION type=hidden 
+value=/wEdAAqzOAsDuy9aGfemECvq/QDEjf17kw/pd4CzNzAomRbyiXY2+Mc6SrnAqio3oCKbxYYRX42ylc/8nQZbFu0GiY6aAXVFkILbSYlAW58mkuqhOjPe4Wz8OOMDtYqbE/Qov4UnHXI0rQ+dGiv2a31rP7kFU8MVVEaGs0yECpFGENw+P0CmqzAgPqOfYmC4SrJC/sCq34lY7qBWnv9eA7M6Nk5Nq/+3I5kKd/VrXUWmOXcejFLdBnTFP4cCuJUzeCCN410=> 
+</DIV>
+<SCRIPT type=text/javascript>
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ScriptManager1', 'Form1', [], [], [], 90, '');
+//]]>
+</SCRIPT>
+
+<TABLE width="100%" border=0 cellSpacing=0 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="FONT-FAMILY: Tahoma; PADDING-BOTTOM: 3px; PADDING-TOP: 3px; PADDING-LEFT: 3px; PADDING-RIGHT: 3px"><IMG 
+      id=imgLogo 
+      style="BORDER-LEFT-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-TOP-WIDTH: 0px" 
+      alt="Synapsys Desktop" 
+      src="Synapsys%20-%20Sign-On_files/Synapsys_Stacked_Wordmark_CoolGray11_DESKTOP.png"> 
+      <SPAN style="FLOAT: right; MARGIN: 10px"><SPAN class=SmallText 
+      id=lblStatus>Attached to MOSQL.TranscendDB</SPAN> </SPAN></TD></TR>
+  <TR>
+    <TD class="HeaderStyle1 WelcomeBar">Welcome to Synapsys Desktop! </TD></TR>
+  <TR>
+    <TD align=center>
+      <TABLE 
+      style="BORDER-TOP: #ffffff 1px outset; BORDER-RIGHT: #ffffff 1px outset; BORDER-BOTTOM: #ffffff 1px outset; BORDER-LEFT: #ffffff 1px outset; MARGIN: 35px auto" 
+      border=0 cellSpacing=0 cellPadding=3>
+        <TBODY>
+        <TR>
+          <TD align=center>
+            <DIV id=pnlSignIN>
+            <TABLE>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE style="WIDTH: 306px" border=0 cellSpacing=0 
+                  cellPadding=2>
+                    <TBODY>
+                    <TR style="HEIGHT: 20px">
+                      <TD align=left class=GridHeaderStyle1 
+                        vAlign=top>Synapsys Desktop Sign-on </TD></TR>
+                    <TR>
+                      <TD align=left vAlign=top>
+                        <TABLE border=0 cellSpacing=1 cellPadding=1>
+                          <TBODY>
+                          <TR id=trNetwork style="DISPLAY: none">
+                            <TD align=left 
+                              class=SmallBoldDarkBlueText>Identity: </TD>
+                            <TD><SPAN class=SmallBoldDarkBlueText 
+                              id=lblDomainUser>MEMBERONE\vriley</SPAN> </TD></TR>
+                          <TR>
+                            <TD align=left class=SmallBoldDarkBlueText>User 
+                              ID: </TD>
+                            <TD style="WIDTH: 100%; PADDING-RIGHT: 3px" 
+                            colSpan=2><INPUT name=txtSignon tabIndex=1 
+                              class=InputBoxStyle2 id=txtSignon 
+                              style="WIDTH: 100%" onblur=userIDPermissions(); 
+                              type=text AutoComplete="off"> </TD></TR>
+                          <TR>
+                            <TD align=left class=SmallBoldDarkBlueText 
+                            AutoComplete="off">Password: </TD>
+                            <TD style="WIDTH: 100%; PADDING-RIGHT: 3px" 
+                            colSpan=2><INPUT name=txtPassword tabIndex=2 
+                              class=InputBoxStyle2 id=txtPassword 
+                              style="WIDTH: 100%" type=password> </TD></TR>
+                          <TR id=trCoreSignOn style="DISPLAY: none">
+                            <TD align=left class=SmallBoldDarkBlueText>Core 
+                              ID: </TD>
+                            <TD style="WIDTH: 100%; PADDING-RIGHT: 3px" 
+                            colSpan=2><INPUT name=txtCoreID tabIndex=3 
+                              class=InputBoxStyle2 id=txtCoreID 
+                              style="WIDTH: 100%" onblur=jSetUpperCase(this) 
+                              type=text> </TD></TR>
+                          <TR>
+                            <TD align=left class=SmallBoldDarkBlueText 
+                            style="HEIGHT: 23px">Company: </TD>
+                            <TD style="HEIGHT: 23px" colSpan=2><SELECT 
+                              name=cboCompany tabIndex=4 class=InputBoxStyle1 
+                              id=cboCompany style="WIDTH: 100%" 
+                              onkeypress=checkEnter(); 
+                              onchange=companyPermissions();> <OPTION 
+                                value=8283~/~False~/~False selected>8283 - 
+                                Member One Federal Credit Union</OPTION></SELECT> 
+                            </TD></TR>
+                          <TR>
+                            <TD align=left></TD>
+                            <TD><SPAN class=SmallBoldDarkBlueText><INPUT 
+                              name=chkChgPassword tabIndex=5 id=chkChgPassword 
+                              type=checkbox><LABEL for=chkChgPassword>Change 
+                              Password</LABEL></SPAN> </TD>
+                            <TD id=tdRememberMe style="DISPLAY: none"><SPAN 
+                              class=SmallBoldDarkBlueText><INPUT name=RememberMe 
+                              tabIndex=6 id=RememberMe type=checkbox><LABEL 
+                              for=RememberMe>Remember Me</LABEL></SPAN> </TD></TR>
+                          <TR>
+                            <TD colSpan=3><SPAN class=ErrorMessage 
+                              id=Msg></SPAN></TD></TR></TBODY></TABLE></TD></TR>
+                    <TR>
+                      <TD><INPUT name=cmdSignOn tabIndex=7 class=ButtonStyle1 id=cmdSignOn accessKey=S style="WIDTH: 50%" onclick=jCheckForNewDomainUser(); type=submit value="Sign On"> 
+                      </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></DIV></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD></TD></TR></TBODY></TABLE>
+<DIV style="DISPLAY: none; VISIBILITY: hidden"><INPUT name=txthUpdateDomainInfo 
+id=txthUpdateDomainInfo type=hidden size=1 value=false> <INPUT name=btnRedirect class=HiddenInput id=btnRedirect type=submit> </DIV>
+<SCRIPT language=javascript> try{ document.getElementById('txtSignon').focus(); } catch(err){ /* Attempt Only */ } </SCRIPT>
+</FORM></BODY></HTML>
